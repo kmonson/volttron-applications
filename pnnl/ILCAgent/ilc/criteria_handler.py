@@ -310,6 +310,8 @@ class FormulaCriterion(BaseCriterion):
         if isinstance(operation_args, list):
             operation_args = {"always": operation_args}
 
+        operation_args = self.fixup_dict_args(operation_args)
+
         self.build_ingest_map(operation_args)
 
         # operation_points = operation_args.keys()
@@ -321,6 +323,28 @@ class FormulaCriterion(BaseCriterion):
 
         self.current_operation_values = {}
         self.status = False
+
+    def fixup_dict_args(self, operation_args):
+        "backwards compatiblility with old configurations"
+        need_fix = False
+        for key in operation_args:
+            if key not in ("always", "nc"):
+                need_fix = True
+                break
+
+        if not need_fix:
+            return operation_args
+
+        result = {"always": [], "nc": []}
+
+        for key, value in operation_args.iteritems():
+            if value != "nc":
+                result["always"] = key
+            else:
+                result["nc"] = key
+
+        return result
+
 
     def build_ingest_map(self, operation_args):
         "Build data structures for ingest data and return operation points for sympy"
