@@ -328,10 +328,10 @@ class FormulaCriterion(BaseCriterion):
         self.update_points = {}
         self.operation_arg_count = 0
 
-        for arg_type, arg_list in operation_args:
+        for arg_type, arg_list in operation_args.iteritems():
             topic_map, topic_set = create_device_topic_map(arg_list, self.device_topic)
             self.topic_map.update(topic_map)
-            self.device_topics += topic_set
+            self.device_topics |= topic_set
             self.update_points[arg_type] = set(topic_map.itervalues())
             self.operation_arg_count += len(topic_map)
 

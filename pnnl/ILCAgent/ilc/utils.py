@@ -107,7 +107,7 @@ def create_device_topic_map(arg_list, default_topic=""):
         if isinstance(item, str):
             point = clean_text(item)
             result[default_topic + '/' + point] = point
-            topics.add(device)
+            topics.add(default_topic)
         elif isinstance(item, (list, tuple)):
             device, point = item
             point = clean_text(point)
