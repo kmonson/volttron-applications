@@ -341,7 +341,7 @@ class ILCAgent(Agent):
         return values_map, meta_map
 
     def sync_status(self):
-        for device_name, curtailment_device in self.curtailment_container.devices.iteritems():
+        for (device_name, actuator), curtailment_device in self.curtailment_container.devices.iteritems():
             criteria_device = self.criteria_container.get_device(device_name)
             subdevices = curtailment_device.curtailments.keys()
             for subdevice in subdevices:
