@@ -131,6 +131,9 @@ class DeviceStatus(object):
         device_status_args = parse_sympy(device_status_args)
 
         self.device_topic_map, self.device_topics = create_device_topic_map(device_status_args, default_device)
+
+        _log.debug("Device topic map: {}".format(self.device_topic_map))
+        
         # self.device_status_args = device_status_args
         self.condition = parse_sympy(condition, condition=True)
         self.expr = parse_expr(self.condition)
@@ -174,12 +177,12 @@ class Curtailment(object):
         # conditional_curtailment = curtail_config.pop('conditional_curtail', [])
 
         for settings in curtailment_settings:
-            conditional_curtailment = CurtailmentSetting(**settings)
+            conditional_curtailment = CurtailmentSetting(default_device=device_topic, **settings)
             self.device_topics += conditional_curtailment.device_topics
             self.conditional_curtailments.append(conditional_curtailment)
         # self.default_curtailment = CurtailmentSetting(**default_curtailment)
 
-        self.device_status = DeviceStatus(default_device=default_device, **curtail_config.pop('device_status', {}))
+        self.device_status = DeviceStatus(default_device=device_topic, **curtail_config.pop('device_status', {}))
         # device_status_dict = curtail_config.pop('device_status')
         # device_status_args = parse_sympy(device_status_dict['device_status_args'])
         # condition = device_status_dict['condition']

@@ -313,6 +313,8 @@ class FormulaCriterion(BaseCriterion):
         operation_args = self.fixup_dict_args(operation_args)
 
         self.build_ingest_map(operation_args)
+        
+        _log.debug("Device topic map: {}".format(self.device_topic_map))
 
         # operation_points = operation_args.keys()
         # self.operation_parms = operation_args.values()
@@ -339,9 +341,9 @@ class FormulaCriterion(BaseCriterion):
 
         for key, value in operation_args.iteritems():
             if value != "nc":
-                result["always"] = key
+                result["always"].append(key)
             else:
-                result["nc"] = key
+                result["nc"].append(key)
 
         return result
 
