@@ -148,9 +148,9 @@ class CriteriaContainer(object):
     def get_device(self, device_name):
         return self.devices[device_name]
 
-    def ingest_data(self, data):
+    def ingest_data(self, time_stamp, data):
         for device in self.devices.itervalues():
-            device.ingest_data(data)
+            device.ingest_data(time_stamp, data)
 
 
 class DeviceCriteria(object):
